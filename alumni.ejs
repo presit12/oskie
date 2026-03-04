@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alumni Report</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+  <nav class="bg-blue-600 text-white p-4">
+    <div class="container mx-auto flex justify-between items-center">
+      <h1 class="text-2xl font-bold">Alumni Management System</h1>
+      <div class="flex gap-4 items-center">
+        <a href="/dashboard" class="hover:underline">Dashboard</a>
+        <a href="/alumni" class="hover:underline">Alumni</a>
+        <a href="/reports" class="hover:underline">Reports</a>
+        <a href="/auth/logout" class="bg-red-500 px-4 py-2 rounded hover:bg-red-600">Logout</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container mx-auto p-6">
+    <h2 class="text-3xl font-bold mb-6">Alumni Report</h2>
+    <p class="mb-4">Total alumni registered: <strong><%= totalAlumni %></strong></p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div>
+        <h3 class="text-xl font-bold mb-2">By Program</h3>
+        <% if (Object.keys(byProgram).length === 0) { %>
+        <p class="italic text-gray-500">No data available.</p>
+        <% } else { %>
+        <ul class="space-y-1">
+          <% for (const [prog, count] of Object.entries(byProgram)) { %>
+          <li><span class="font-semibold"><%= prog %>:</span> <%= count %></li>
+          <% } %>
+        </ul>
+        <% } %>
+      </div>
+      <div>
+        <h3 class="text-xl font-bold mb-2">By Graduation Year</h3>
+        <% if (Object.keys(byYear).length === 0) { %>
+        <p class="italic text-gray-500">No data available.</p>
+        <% } else { %>
+        <ul class="space-y-1">
+          <% for (const [year, count] of Object.entries(byYear)) { %>
+          <li><span class="font-semibold"><%= year %>:</span> <%= count %></li>
+          <% } %>
+        </ul>
+        <% } %>
+      </div>
+    </div>
+
+    <div class="mt-8">
+      <a href="/reports" class="bg-gray-500 text-white px-6 py-2 rounded hover:bg-gray-600">Back to Reports</a>
+    </div>
+  </div>
+</body>
+</html>

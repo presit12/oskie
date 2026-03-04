@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+  <nav class="bg-indigo-600 text-white p-4">
+    <div class="container mx-auto flex justify-between items-center">
+      <h1 class="text-2xl font-bold">Alumni Management System</h1>
+      <div class="flex gap-4 items-center">
+        <a href="/dashboard" class="hover:underline">Dashboard</a>
+        <a href="/alumni" class="hover:underline">Alumni</a>
+        <a href="/reports" class="hover:underline">Reports</a>
+        <% if (user.role === 'admin') { %>
+        <a href="/programs" class="hover:underline">Programs</a>
+        <a href="/staff" class="hover:underline">Staff</a>
+        <% } %>
+        <span class="text-sm">(<%= user.username %> - <%= user.role %>)</span>
+        <a href="/auth/logout" class="bg-red-500 px-4 py-2 rounded hover:bg-red-600">Logout</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container mx-auto p-6">
+    <h2 class="text-3xl font-bold mb-6">Welcome, <%= user.username %>!</h2>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <a href="/alumni" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+        <h3 class="text-xl font-bold text-indigo-600 mb-2">View Alumni</h3>
+        <p class="text-gray-600">Browse and manage alumni records</p>
+      </a>
+      
+      <a href="/reports" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+        <h3 class="text-xl font-bold text-purple-600 mb-2">Reports</h3>
+        <p class="text-gray-600">Generate system and program reports</p>
+      </a>
+      
+      <% if (user.role === 'admin' || user.permissions.canAddAlumni) { %>
+      <a href="/alumni/add" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+        <h3 class="text-xl font-bold text-green-600 mb-2">Add Alumni</h3>
+        <p class="text-gray-600">Register a new alumni member</p>
+      </a>
+      <% } %>
+      
+      <% if (user.role === 'admin') { %>
+      <a href="/programs" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+        <h3 class="text-xl font-bold text-orange-600 mb-2">Manage Programs</h3>
+        <p class="text-gray-600">Create and manage academic programs</p>
+      </a>
+      
+      <a href="/staff" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+        <h3 class="text-xl font-bold text-blue-600 mb-2">Manage Staff</h3>
+        <p class="text-gray-600">Create and manage staff accounts</p>
+      </a>
+      <% } %>
+    </div>
+    
+    <div class="mt-8 bg-white p-6 rounded-lg shadow">
+      <h3 class="text-xl font-bold mb-4">Your Permissions</h3>
+      <ul class="space-y-2">
+        <li class="flex items-center">
+          <span class="<%= user.role === 'admin' || user.permissions.canAddAlumni ? 'text-green-600' : 'text-red-600' %> mr-2">
+            <%= user.role === 'admin' || user.permissions.canAddAlumni ? '✓' : '✗' %>
+          </span>
+          Add Alumni
+        </li>
+        <li class="flex items-center">
+          <span class="<%= user.role === 'admin' || user.permissions.canEditAlumni ? 'text-green-600' : 'text-red-600' %> mr-2">
+            <%= user.role === 'admin' || user.permissions.canEditAlumni ? '✓' : '✗' %>
+          </span>
+          Edit Alumni
+        </li>
+        <li class="flex items-center">
+          <span class="<%= user.role === 'admin' || user.permissions.canDeleteAlumni ? 'text-green-600' : 'text-red-600' %> mr-2">
+            <%= user.role === 'admin' || user.permissions.canDeleteAlumni ? '✓' : '✗' %>
+          </span>
+          Delete Alumni
+        </li>
+        <li class="flex items-center">
+          <span class="text-green-600 mr-2">✓</span>
+          View Alumni
+        </li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>

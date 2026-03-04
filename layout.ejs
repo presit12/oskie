@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= typeof title !== 'undefined' ? title : 'School Fees Management' %></title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+  <% if (typeof user !== 'undefined' && user) { %>
+  <nav class="bg-blue-600 text-white p-4">
+    <div class="container mx-auto flex justify-between items-center">
+      <h1 class="text-2xl font-bold">School Fees Management</h1>
+      <div class="flex gap-4 items-center">
+        <a href="/dashboard" class="hover:underline">Dashboard</a>
+        <a href="/students" class="hover:underline">Students</a>
+        <% if (user.role === 'admin') { %>
+        <a href="/staff" class="hover:underline">Staff</a>
+        <% } %>
+        <span class="text-sm">(<%= user.username %> - <%= user.role %>)</span>
+        <a href="/auth/logout" class="bg-red-500 px-4 py-2 rounded hover:bg-red-600">Logout</a>
+      </div>
+    </div>
+  </nav>
+  <% } %>
+  
+  <div class="container mx-auto p-6">
+    <%- body %>
+  </div>
+</body>
+</html>

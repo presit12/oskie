@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= alumnus.fullName %> - Profile</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+  <nav class="bg-indigo-600 text-white p-4">
+    <div class="container mx-auto flex justify-between items-center">
+      <h1 class="text-2xl font-bold">Alumni Management System</h1>
+      <div class="flex gap-4 items-center">
+        <a href="/dashboard" class="hover:underline">Dashboard</a>
+        <a href="/alumni" class="hover:underline">Alumni</a>
+        <a href="/auth/logout" class="bg-red-500 px-4 py-2 rounded hover:bg-red-600">Logout</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container mx-auto p-6 max-w-4xl">
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+      <div class="bg-gradient-to-r from-indigo-600 to-purple-600 h-32"></div>
+      
+      <div class="px-6 pb-6">
+        <div class="flex items-start -mt-16 mb-6">
+          <div class="w-32 h-32 rounded-full bg-white border-4 border-white shadow-lg flex items-center justify-center text-indigo-600 text-5xl font-bold">
+            <%= alumnus.fullName.charAt(0).toUpperCase() %>
+          </div>
+          <div class="ml-6 mt-20">
+            <h2 class="text-3xl font-bold text-gray-800"><%= alumnus.fullName %></h2>
+            <p class="text-gray-600"><%= alumnus.registrationNumber %></p>
+          </div>
+          <div class="ml-auto mt-20">
+            <% if (user.role === 'admin' || user.permissions.canEditAlumni) { %>
+            <a href="/alumni/edit/<%= alumnus._id %>" 
+               class="bg-indigo-600 text-white px-6 py-2 rounded hover:bg-indigo-700">
+              Edit Profile
+            </a>
+            <% } %>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div class="bg-gray-50 p-4 rounded-lg">
+            <h3 class="text-lg font-bold text-gray-800 mb-3">Contact Information</h3>
+            <div class="space-y-2">
+              <p><span class="font-semibold">Email:</span> <a href="mailto:<%= alumnus.email %>" class="text-indigo-600 hover:underline"><%= alumnus.email %></a></p>
+              <p><span class="font-semibold">Phone:</span> <%= alumnus.phone %></p>
+              <% if (alumnus.location) { %>
+              <p><span class="font-semibold">Location:</span> <%= alumnus.location %></p>
+              <% } %>
+            </div>
+          </div>
+
+          <div class="bg-gray-50 p-4 rounded-lg">
+            <h3 class="text-lg font-bold text-gray-800 mb-3">Academic Information</h3>
+            <div class="space-y-2">
+              <p><span class="font-semibold">Program:</span> <%= alumnus.program.name %></p>
+              <p><span class="font-semibold">Department:</span> <%= alumnus.program.department %></p>
+              <p><span class="font-semibold">Graduation Year:</span> <%= alumnus.graduationYear %></p>
+              <p><span class="font-semibold">Registered:</span> <%= new Date(alumnus.dateRegistered).toLocaleDateString() %></p>
+            </div>
+          </div>
+        </div>
+
+        <% if (alumnus.currentEmployer || alumnus.currentPosition) { %>
+        <div class="bg-gray-50 p-4 rounded-lg mb-6">
+          <h3 class="text-lg font-bold text-gray-800 mb-3">Current Employment</h3>
+          <div class="space-y-2">
+            <% if (alumnus.currentEmployer) { %>
+            <p><span class="font-semibold">Employer:</span> <%= alumnus.currentEmployer %></p>
+            <% } %>
+            <% if (alumnus.currentPosition) { %>
+            <p><span class="font-semibold">Position:</span> <%= alumnus.currentPosition %></p>
+            <% } %>
+          </div>
+        </div>
+        <% } %>
+
+        <% if (alumnus.bio) { %>
+        <div class="bg-gray-50 p-4 rounded-lg">
+          <h3 class="text-lg font-bold text-gray-800 mb-3">Biography</h3>
+          <p class="text-gray-700 leading-relaxed"><%= alumnus.bio %></p>
+        </div>
+        <% } %>
+
+        <div class="mt-6 flex gap-4">
+          <a href="/alumni" class="bg-gray-500 text-white px-6 py-2 rounded hover:bg-gray-600">
+            Back to Directory
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

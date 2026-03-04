@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Student</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+  <nav class="bg-blue-600 text-white p-4">
+    <div class="container mx-auto flex justify-between items-center">
+      <h1 class="text-2xl font-bold">School Fees Management</h1>
+      <div class="flex gap-4 items-center">
+        <a href="/dashboard" class="hover:underline">Dashboard</a>
+        <a href="/students" class="hover:underline">Students</a>
+        <% if (user.role === 'admin') { %>
+        <a href="/staff" class="hover:underline">Staff</a>
+        <% } %>
+        <a href="/auth/logout" class="bg-red-500 px-4 py-2 rounded hover:bg-red-600">Logout</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container mx-auto p-6 max-w-2xl">
+    <h2 class="text-3xl font-bold mb-6">Add New Student</h2>
+    
+    <% if (error && error.length > 0) { %>
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+      <%= error %>
+    </div>
+    <% } %>
+
+    <form method="POST" class="bg-white p-6 rounded-lg shadow">
+      <div class="mb-4">
+        <label class="block text-gray-700 mb-2">Full Name</label>
+        <input type="text" name="fullName" required 
+               class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-gray-700 mb-2">Registration Number</label>
+        <input type="text" name="registrationNumber" required 
+               class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-gray-700 mb-2">Class</label>
+        <select name="class" required 
+                class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <option value="">Select Class</option>
+          <% classes.forEach(classItem => { %>
+          <option value="<%= classItem._id %>"><%= classItem.name %> - <%= classItem.fees.toFixed(2) %> FRW</option>
+          <% }) %>
+        </select>
+        <p class="text-sm text-gray-500 mt-1">Fees will be automatically set based on class</p>
+      </div>
+
+      <div class="mb-6">
+        <label class="block text-gray-700 mb-2">Level</label>
+        <select name="level" required 
+                class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <option value="">Select Level</option>
+          <option value="Level 3">Level 3</option>
+          <option value="Level 4">Level 4</option>
+          <option value="Level 5">Level 5</option>
+        </select>
+      </div>
+
+      <div class="flex gap-4">
+        <button type="submit" 
+                class="flex-1 bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
+          Add Student
+        </button>
+        <a href="/students" 
+           class="flex-1 bg-gray-500 text-white py-2 rounded hover:bg-gray-600 text-center">
+          Cancel
+        </a>
+      </div>
+    </form>
+  </div>
+</body>
+</html>
